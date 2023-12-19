@@ -1,6 +1,6 @@
 import express from "express";
-import {getUserById, getCurrentUser} from "./controllers/UserController.js";
-import { verifyToken } from "../middleware/AuthenticatorGuard.js";
+import {getUserById, getCurrentUser} from "../controllers/UserController.js";
+import { verifyToken } from "../middlewares/AuthenticatorGuard.js";
 
 
 const userRouter = express.Router();
