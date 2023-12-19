@@ -3,10 +3,10 @@ import MaterialTypeModel from '../models/MaterialTypeModel.js';
 
 export const createEnterprise = async (req,res) => {
     const { name , materialType, description} = req.body
-    console.log(req.body);  
+    console.log(materialType);  
 
-     const material = await MaterialTypeModel.find({"materialType":materialType})
-     console.log(material);
+     const material = await MaterialTypeModel.findOne({"_id":materialType})
+     console.log('lalala',material);
      if(!material) {
         res.status(404).send("erreur ce materiel n'existe pas")
         return

@@ -1,20 +1,38 @@
 import MaterialModel from "../models/MaterialModel.js"; 
 import MaterialTypeModel from "../models/MaterialTypeModel.js"; 
 
- export const getMaterial = async (res, req) => {
+ export const getMaterial = async (req, res) => {
     const {_id} = req.params;
     console.log('id: ' + id);
     
     const material = new MaterialModel(id);
  }
 
- export const getMaterials = async (res, req) => {
+ export const getMaterials = async (req, res) => {
     const materials = await MaterialModel.find()
+  
+    res.status(200).send(materials)
+
  }
 
  export const createMaterial = async (req,res) => {
-    const { name , description ,type} = req.body
-    console.log(req.body);
+  const {name , materialType, description} = req.body
+  console.log(materialType);  
+
+   const materials = await MaterialTypeModel.findOne({"_id":materialType})
+   console.log('lalala',materials);
+   if(!materials) {
+      res.status(404).send("erreur ce materiel n'existe pas")
+      return
+   } 
+
+    const material = new MaterialModel(req.body);
+    material.materialType = materials
+    material.name = name 
+    material.description = description 
+    await material.save()
+    res.status(200).send(material)
+
 }
 
 export const createMaterialType = async (req,res) => {

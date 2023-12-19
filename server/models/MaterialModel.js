@@ -24,11 +24,6 @@ const MaterialSchema = new Schema({
     materialType: {
         type: {type: mongoose.Types.ObjectId,ref:'materialType'},
        
-    },
-    enterprise: {
-        type: mongoose.Types.ObjectId,
-        ref: "enterprise",
-        required: true
     }
 })
 
