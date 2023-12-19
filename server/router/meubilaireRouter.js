@@ -3,15 +3,15 @@ import {
     createMeubilaire,
     getMeubilaires,
     getMeubilaire,
-    getMeubilairesByCategory
+    getMeubilairesBySearch
 } from "../controllers/MeubilaireController.js";
 
 const meubilaireRouter = express.Router();
 
-meubilaireRouter.post("/api/meubilaires/create", createMeubilaire);
+meubilaireRouter.post("/api/meubilaires", createMeubilaire);
 
 meubilaireRouter.get("/api/meubilaires/:id", getMeubilaire);
-meubilaireRouter.get("/api/meubilaires", getMeubilaires);
-meubilaireRouter.post("/api/meubilaires/category/:id", getMeubilairesByCategory);
+
+meubilaireRouter.get("/api/meubilaires", getMeubilairesBySearch);
 
 export default meubilaireRouter;

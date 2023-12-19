@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const CategorySchema = new Schema({
     name: {
-        trype: String,
+        type: String,
         required: true,
         unique: true,
         minLength: 3,

@@ -8,18 +8,20 @@ const MeubilaireSchema = new Schema({
         unique: true,
         minLenght: 3,
         validate: value => {
-            if(value ==="" || value.length <= 3){
-                throw  new Error('Nom trop court')
-            }
+        if(value ==="" || value.length <= 3){
+            throw  new Error('Nom trop court')
+        }
     }},
-    material: {
-        type: [{type: mongoose.Types.objectifId,ref:'material'}],
+    material: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'material',
         required: true,
-    },
+    }],
     category: {
-        type: {type: mongoose.Types.objectifId,ref:'category'},
-        required: true,
-    }
+        type: {type: mongoose.Types.ObjectId,ref:'category'},
+        
+       
+    },
 })
 
 const MeubilaireModel = mongoose.model('meubilaire', MeubilaireSchema);

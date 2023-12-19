@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 // import securityRouter from "./router/securityRouter.js";
 import materialRouter from "./router/materialRouter.js";
+import meubilaireRouter from "./router/meubilaireRouter.js";
+import categoryRouter from "./router/categoryRouter.js";
+import enterpriseRouter from "./router/enterpriseRouter.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 8001;
@@ -13,6 +16,9 @@ app.use(cors());
 app.use(express.json());
 //  app.use(securityRouter);
  app.use(materialRouter)
+ app.use(meubilaireRouter)
+ app.use(categoryRouter)
+ app.use(enterpriseRouter)
 mongoose.connect(process.env.MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true

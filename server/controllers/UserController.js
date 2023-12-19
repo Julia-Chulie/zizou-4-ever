@@ -4,7 +4,6 @@ import hashPassword  from '../utils/hashPassword.js';
 import jsonwebToken from 'jsonwebtoken'
 import {SECRET_KEY} from '../utils/const/constant.js'
 
-
 export const getUserById = async (req,res) => {
     const {id} = req.params
     const user = await UserModel.findById(id).exec()

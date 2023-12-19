@@ -14,10 +14,3 @@ materialRouter.get("/api/materialTypes/:id", getMaterialType);
 materialRouter.get("/api/materialTypes", getMaterialTypes);
 
 export default materialRouter;
-
-
-// {
-//     "message": {
-//         "code": "ERR_INVALID_ARG_TYPE"
-//     }
-// }

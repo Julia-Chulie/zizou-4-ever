@@ -6,18 +6,15 @@ import MaterialTypeModel from "../models/MaterialTypeModel.js";
     console.log('id: ' + id);
     
     const material = new MaterialModel(id);
-    
  }
 
  export const getMaterials = async (res, req) => {
     const materials = await MaterialModel.find()
  }
 
-
  export const createMaterial = async (req,res) => {
     const { name , description ,type} = req.body
     console.log(req.body);
-    
 }
 
 export const createMaterialType = async (req,res) => {
@@ -29,13 +26,9 @@ export const createMaterialType = async (req,res) => {
     materialType.name = name
    await materialType.save()
     res.send({MaterialModel})
-
-
   } catch (error) {
     res.status(404).send({message:error})
-  }
-   
-    
+  }  
 }
 
 export const getMaterialTypes = async (req, res) => {

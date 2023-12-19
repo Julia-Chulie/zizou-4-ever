@@ -11,7 +11,7 @@ export const fetchMeubilaires = async () => {
     }
 }
 
-export const fetchCategory = async () => {
+export const fetchCategories = async () => {
     try {
         const response = await instance.get("/categories")
         return response.data
@@ -22,11 +22,11 @@ export const fetchCategory = async () => {
     }
 }
 
-export const fetchMaterial = async () => {
+export const fetchMaterials = async () => {
     try {
         const response = await instance.get("/materials")
     } catch (error) {
-        console.error("Erreur lors de la récupération des catégories", error);
+        console.error("Erreur lors de la récupération des matériaux", error);
         throw error
     }
 }

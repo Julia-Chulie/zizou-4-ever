@@ -21,13 +21,8 @@ const EnterpriseSchema = new Schema({
             throw  new Error('description trop court')
         }
     }},
-    materials: {
-        type: [{type: mongoose.Types.objectifId,ref:'material'}],
-        required: true,
-    },
-    siret: {
-        type: Number,
-        required: true,
+    materialType: {
+        type: {type: mongoose.Types.ObjectId,ref:'materialType'},
     },
 })
 
