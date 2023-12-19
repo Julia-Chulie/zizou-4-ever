@@ -18,4 +18,19 @@ export const getMeubilaires = async (req, res) => {
 export const getMeubilaire = async (req, res) => {
     const id = 'eaeazeaze'
     const meubilaire = await MeubilaireModel.findOne({id})
+    if(!meubilaire) {
+        res.status(403).send({error: true, message: 'Ce meuble n\'existe pas'});
+    }else {
+        res.status(200).send(meubilaire);
+    }
+}
+
+export const getMeubilairesByCategory = async (req, res) => {
+    const {category} = req.params;
+    const meubilaires = await MeubilaireModel.find({"category":category}.exec())
+    if(!meubilaires){
+        res.status(403).send({error:true,message:'Cette catégorie n\'existe pas'});
+    }else{
+        res.status(200).send(meubilaires);
+    }
 }

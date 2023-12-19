@@ -43,5 +43,6 @@ export const getMaterialTypes = async (req, res) => {
 }
 
 export const getMaterialType = async (req, res) => {
-    const materialType = await MaterialTypeModel.find({id})
+    const {id} = req.params;
+    const materialType = await MaterialTypeModel.find({"_id": id}.exec())
 }
