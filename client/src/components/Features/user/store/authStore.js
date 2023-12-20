@@ -1,8 +1,8 @@
 import {defineStore} from "pinia";
-import authStorageService from "./authStorage";
-import login from '../../../../shared/api/auth.api'
+import authStorageService from "./authStorage.js";
+
 import {jwtDecode} from "jwt-decode";
-import {fetchCurrentUser, fetchUserById} from "@/shared/api/user.api";
+import {fetchCurrentUser, fetchUserById} from "../../../../shared/api/user.api";
 
 export const useAuthStore = defineStore('authStore', {
     state: () => ({
@@ -26,7 +26,6 @@ export const useAuthStore = defineStore('authStore', {
         },
     },
 
-
 //    karim.benzema@gmail.com
     actions: {
         async login(user) {
@@ -39,6 +38,7 @@ export const useAuthStore = defineStore('authStore', {
                 this.currentUser = await fetchUserById(decodedtoken._id)
 
             } catch (error) {
+               console.log(error);
                 throw error
             }
         },
@@ -54,6 +54,16 @@ export const useAuthStore = defineStore('authStore', {
                 this.loadedUserById = true;
             }else{
                 this.loadedUserById = false
+            }
+        },
+
+        async updateCurrentUser(user) {
+            try {
+                const response = await updateUser(user)
+                this.fetchCurrentUser();
+                return response.data;
+            } catch (error) {
+                throw error
             }
         },
         async fetchCurrentUser() {

@@ -18,9 +18,8 @@ const MeubilaireSchema = new Schema({
         required: true,
     }],
     category: {
-        type: {type: mongoose.Types.ObjectId,ref:'category'},
-        
-       
+        type: mongoose.Types.ObjectId,
+        ref:'category',
     },
 })
 

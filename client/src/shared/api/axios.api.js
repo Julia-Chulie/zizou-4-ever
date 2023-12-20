@@ -1,5 +1,5 @@
 import axios from 'axios';
-import authStorageService from "@/components/Features/user/store/authStorage";
+import authStorageService from '../../components/Features/user/store/authStorage';
 
 const instance = axios.create({
     baseURL:"http://localhost:9000/api"

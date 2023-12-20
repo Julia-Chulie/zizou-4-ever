@@ -1,18 +1,57 @@
 import MeubilaireModel from "../models/MeubilaireModel.js";
+import MaterialModel from "../models/MaterialModel.js";
+import CategoryModel from "../models/CategoryModel.js";
 
 export const createMeubilaire = async (req, res) => {
-    const { name, material, category } = req.body
-    const meubilaire = new MeubilaireModel(req.body);
-    const meubilaireExist = await MeubilaireModel.findOne({email}.exec());
+    try {
+      const { name, materials, category } = req.body;
+  
 
-    if(meubilaireExist){
-        res.status(403).send({error:true,message:'Ce meuble existe déjà'});
-        return;
+      const cat = await CategoryModel.findOne({ '_id': category });
+      if (!cat) {
+        return res.status(400).send({ error: 'erreur catergory' });
+      }
+  
+      const matArray = [];
+
+      for (const element of materials) {
+        const mat = await MaterialModel.findOne({ '_id': element });
+        if (!mat) {
+          return res.status(400).send({ error: 'errreur element' });
+        }
+        matArray.push(mat.name); 
+      }
+
+      const meubilaire = new MeubilaireModel({
+        name,
+        material: materials, 
+        category: cat._id
+      });
+  
+      await meubilaire.save();
+
+      const response = {
+        _id: meubilaire._id,
+        name: meubilaire.name,
+        materials: matArray,
+        category: cat.name
+      };
+  
+      res.status(201).send(response);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: 'Erreur lors de la création du meuble ' });
     }
-}
+  };
 
 export const getMeubilaires = async (req, res) => {
-    const meubilaires = await MeubilaireModel.find();
+    const meubilaires = await MeubilaireModel.find().populate({
+        path:'materials',
+        seelct:"name"
+    }).populate({
+        path:'category',
+        seelct:"name"
+    });
 }
 
 export const getMeubilaire = async (req, res) => {
@@ -33,7 +72,7 @@ export const getMeubilairesBySearch = async (req, res) => {
         console.log(search);
 
         const filter = search ? { category: search } : {};
-        const meubilaires = await MeubilaireModel.find(filter).exec();
+        const meubilaires = await MeubilaireModel.find(filter)
 
         if (meubilaires.length === 0) {
             return res.status(404).send({ error: true, message: 'Aucun meuble trouvé pour la recherche spécifiée' });
