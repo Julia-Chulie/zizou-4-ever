@@ -1,5 +1,5 @@
 <script setup>
-
+const ref('a')
 </script>
 
 <template>

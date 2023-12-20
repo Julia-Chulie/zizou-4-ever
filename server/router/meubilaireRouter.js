@@ -5,10 +5,12 @@ import {
     getMeubilaire,
     getMeubilairesBySearch
 } from "../controllers/MeubilaireController.js";
+import multer from "multer";
 
 const meubilaireRouter = express.Router();
+const uploads = multer({ dest: 'uploads' });
 
-meubilaireRouter.post("/api/meubilaires", createMeubilaire);
+meubilaireRouter.post("/api/meubilaires", uploads.array("files") ,createMeubilaire);
 
 meubilaireRouter.get("/api/meubilaires/:id", getMeubilaire);
 

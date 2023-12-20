@@ -1,48 +1,56 @@
 import MeubilaireModel from "../models/MeubilaireModel.js";
 import MaterialModel from "../models/MaterialModel.js";
 import CategoryModel from "../models/CategoryModel.js";
+import FileModel from "../models/FileModel.js";
+
 
 export const createMeubilaire = async (req, res) => {
-    try {
-      const { name, materials, category } = req.body;
-  
 
-      const cat = await CategoryModel.findOne({ '_id': category });
-      if (!cat) {
-        return res.status(400).send({ error: 'erreur catergory' });
-      }
-  
-      const matArray = [];
-
-      for (const element of materials) {
-        const mat = await MaterialModel.findOne({ '_id': element });
-        if (!mat) {
-          return res.status(400).send({ error: 'errreur element' });
-        }
-        matArray.push(mat.name); 
-      }
-
-      const meubilaire = new MeubilaireModel({
-        name,
-        material: materials, 
-        category: cat._id
-      });
-  
-      await meubilaire.save();
-
-      const response = {
-        _id: meubilaire._id,
-        name: meubilaire.name,
-        materials: matArray,
-        category: cat.name
-      };
-  
-      res.status(201).send(response);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({ error: 'Erreur lors de la création du meuble ' });
+  try {
+    const { name, materials, category } = req.body;
+  console.log(category);
+    const cat = await CategoryModel.findOne({ '_id': category });
+    if (!cat) {
+      return res.status(400).send({ error: 'Erreur de catégorie' });
     }
-  };
+
+    const matArray = [];
+
+    for (const element of materials) {
+      const mat = await MaterialModel.findOne({ '_id': element });
+      if (!mat) {
+        return res.status(400).send({ error: 'Erreur d\'élément' });
+      }
+      matArray.push(mat.name); 
+    }
+
+    const file = req.files[0]; 
+console.log('lala',req.files[0]);
+    const fileDoc = new FileModel({
+      path: file.path,
+      originalname: file.originalname,
+      uniquName:file.filename
+    });
+
+    await fileDoc.save();
+
+    const meubilaire = new MeubilaireModel({
+     file:fileDoc
+    });
+
+    await meubilaire.save();
+
+    const response = {
+      _id: meubilaire._id,
+      fileDoc: fileDoc,
+    };
+
+    res.status(201).send(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Erreur lors de la création du meuble' });
+  }
+};
 
 export const getMeubilaires = async (req, res) => {
     const meubilaires = await MeubilaireModel.find().populate({
@@ -65,7 +73,6 @@ export const getMeubilaire = async (req, res) => {
 }
 
 export const getMeubilairesBySearch = async (req, res) => {
-    console.log('okok');
     try {
         const { search } = req.query;
 

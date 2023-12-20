@@ -30,3 +30,14 @@ export const fetchMaterials = async () => {
         throw error
     }
 }
+
+
+export const createMeubilaire = async (meubilaire) => {
+    try {
+        const response = await instance.post("/materials", meubilaire)
+        return response.data
+    } catch (error) {
+        console.error("Erreur lors de la récupération des matériaux", error);
+        throw error
+    }
+}
