@@ -25,6 +25,7 @@ export const fetchCategories = async () => {
 export const fetchMaterials = async () => {
     try {
         const response = await instance.get("/materials")
+        return response.data
     } catch (error) {
         console.error("Erreur lors de la récupération des matériaux", error);
         throw error
