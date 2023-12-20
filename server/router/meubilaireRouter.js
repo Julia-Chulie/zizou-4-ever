@@ -12,6 +12,6 @@ meubilaireRouter.post("/api/meubilaires", createMeubilaire);
 
 meubilaireRouter.get("/api/meubilaires/:id", getMeubilaire);
 
-meubilaireRouter.get("/api/meubilaires", getMeubilairesBySearch);
+meubilaireRouter.get("/api/meubilaires", getMeubilaires);
 
 export default meubilaireRouter;
