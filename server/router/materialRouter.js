@@ -3,7 +3,7 @@ import { getMaterial, getMaterials, createMaterial, createMaterialType, getMater
 
 const materialRouter = express.Router();
 
-materialRouter.post("/api/materials/create",createMaterial);
+materialRouter.post("/api/materials",createMaterial);
 
 materialRouter.get("/api/materials/:id", getMaterial);
 materialRouter.get("/api/materials", getMaterials);

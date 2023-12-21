@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-// import securityRouter from "./router/securityRouter.js";
+import securityRouter from "./router/securityRouter.js";
 import materialRouter from "./router/materialRouter.js";
 import meubilaireRouter from "./router/meubilaireRouter.js";
 import categoryRouter from "./router/categoryRouter.js";
@@ -14,11 +14,14 @@ const PORT = process.env.PORT || 8001;
 const app = express();
 app.use(cors());
 app.use(express.json());
-//  app.use(securityRouter);
+ app.use(securityRouter);
  app.use(materialRouter)
  app.use(meubilaireRouter)
  app.use(categoryRouter)
  app.use(enterpriseRouter)
+
+ app.use(express.static('public'));
+
 mongoose.connect(process.env.MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true

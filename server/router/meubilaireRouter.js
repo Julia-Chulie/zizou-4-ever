@@ -8,7 +8,7 @@ import {
 import multer from "multer";
 
 const meubilaireRouter = express.Router();
-const uploads = multer({ dest: 'uploads' });
+const uploads = multer({ dest: 'public/uploads' });
 
 meubilaireRouter.post("/api/meubilaires", uploads.array("files") ,createMeubilaire);
 

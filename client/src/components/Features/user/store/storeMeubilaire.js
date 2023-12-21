@@ -17,9 +17,9 @@ export const useMeubilaireStore = defineStore('meubilaire', {
         console.log('store',meubilaires);
         this.meubilaires = meubilaires;
        },
-       async PostMeubilaire(meubilaire) {
-         const meubilaires = await createMeubilaire(meubilaire);
-         
-        }
+       
+       async postMeubilaire(meubilaire) {
+        const meubilaires = await createMeubilaire(meubilaire);
+       }
     },
 })

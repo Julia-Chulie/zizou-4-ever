@@ -21,10 +21,12 @@ const MaterialSchema = new Schema({
             throw  new Error('description trop court')
         }
     }},
+ 
     materialType: {
-        type: {type: mongoose.Types.ObjectId,ref:'materialType'},
-       
-    }
+        type: mongoose.Types.ObjectId,
+        ref: "materialType",
+        required: true
+    },
 })
 
 const MaterialModel = mongoose.model('material', MaterialSchema);

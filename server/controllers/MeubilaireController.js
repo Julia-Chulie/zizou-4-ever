@@ -5,10 +5,11 @@ import FileModel from "../models/FileModel.js";
 
 
 export const createMeubilaire = async (req, res) => {
-
+console.log(req.body);
+console.log('req.body');
   try {
     const { name, materials, category } = req.body;
-  console.log(category);
+  
     const cat = await CategoryModel.findOne({ '_id': category });
     if (!cat) {
       return res.status(400).send({ error: 'Erreur de catégorie' });
@@ -24,8 +25,11 @@ export const createMeubilaire = async (req, res) => {
       matArray.push(mat.name); 
     }
 
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send({ error: 'Aucun fichier trouvé dans la requête.' });
+    }
+
     const file = req.files[0]; 
-console.log('lala',req.files[0]);
     const fileDoc = new FileModel({
       path: file.path,
       originalname: file.originalname,
@@ -35,7 +39,10 @@ console.log('lala',req.files[0]);
     await fileDoc.save();
 
     const meubilaire = new MeubilaireModel({
-     file:fileDoc
+     file:fileDoc,
+     name,
+     material: materials, 
+     category: cat._id
     });
 
     await meubilaire.save();
@@ -43,6 +50,9 @@ console.log('lala',req.files[0]);
     const response = {
       _id: meubilaire._id,
       fileDoc: fileDoc,
+      name:name,
+      material: materials, 
+      category: cat._id
     };
 
     res.status(201).send(response);
@@ -105,3 +115,4 @@ export const createCategory = async (req,res) => {
     res.status(404).send({message:error})
   }
 }
+

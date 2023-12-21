@@ -2,7 +2,7 @@ import axios from 'axios';
 import authStorageService from '../../components/Features/user/store/authStorage';
 
 const instance = axios.create({
-    baseURL:"http://localhost:9000/api"
+    baseURL:"http://localhost:9001/api"
 })
 
 
@@ -23,16 +23,16 @@ instance.interceptors.request.use(
     }
   );
 
-  // instance.interceptors.response.use(
-  //   response => {
-  //   console.log(response);
+  instance.interceptors.response.use(
+    response => {
+    console.log(response);
 
-  //     return response;
-  //   },
-  //   error => {
-  //     return Promise.reject(error);
-  //   }
-  // );
+      return response;
+    },
+    error => {
+      return Promise.reject(error);
+    }
+  );
 
 export default instance;
 
