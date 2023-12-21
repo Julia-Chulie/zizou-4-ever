@@ -30,7 +30,7 @@ export const createMeubilaire = async (req, res) => {
 
     const fileExtension = path.extname(req.file.originalname);
 
-    if (fileExtension !== '.jpg' && fileExtension !== '.png') {
+    if (fileExtension !== '.jpg' && fileExtension !== '.png' &&  fileExtension !== '.jpeg' ) {
       return res.status(400).send({ error: "Ce type de fichier n'est pas pris en compte" });
     }
 
@@ -61,7 +61,7 @@ export const createMeubilaire = async (req, res) => {
 
     res.status(201).send(response);
   } catch (error) {
-    console.error(error);
+  
     res.status(500).send({ error: 'Erreur lors de la création du meuble' });
   }
 };
@@ -103,7 +103,7 @@ export const getMeubilairesBySearch = async (req, res) => {
 
 export const createCategory = async (req,res) => {
     const { name } = req.body
-    console.log(name)
+  
   try {
     const {name} = req.body
     const category =  new CategoryModel()
