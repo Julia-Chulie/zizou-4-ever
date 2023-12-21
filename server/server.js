@@ -16,12 +16,12 @@ const PORT = process.env.PORT || 8001;
 const app = express();
 app.use(cors());
 app.use(express.json());
- app.use(securityRouter);
- app.use(materialRouter)
- app.use(meubilaireRouter)
- app.use(categoryRouter)
- app.use(enterpriseRouter)
- app.use(express.static('public'));
+app.use(securityRouter);
+app.use(materialRouter)
+app.use(meubilaireRouter)
+app.use(categoryRouter)
+app.use(enterpriseRouter)
+app.use(express.static('public'));
 app.use(statisticsRouter)
 app.use(userRouter)
 

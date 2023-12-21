@@ -2,10 +2,11 @@ import MeubilaireModel from "../models/MeubilaireModel.js";
 import MaterialModel from "../models/MaterialModel.js";
 import CategoryModel from "../models/CategoryModel.js";
 import FileModel from "../models/FileModel.js";
-import path from 'path'
+
 
 export const createMeubilaire = async (req, res) => {
-
+console.log(req.body);
+console.log('req.body');
   try {
     const { name, materials, category } = req.body;
   
@@ -24,36 +25,31 @@ export const createMeubilaire = async (req, res) => {
       matArray.push(mat.name); 
     }
 
-    if (!req.file) {
-      return res.status(400).send({ error: 'Aucune image reçue' });
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send({ error: 'Aucun fichier trouvé dans la requête.' });
     }
 
-    const fileExtension = path.extname(req.file.originalname);
-
-    if (fileExtension !== '.jpg' && fileExtension !== '.png' &&  fileExtension !== '.jpeg' ) {
-      return res.status(400).send({ error: "Ce type de fichier n'est pas pris en compte" });
-    }
-
-    const file = new FileModel({
-      originalname: req.file.filename,
-      path: req.file.path,
-      format: fileExtension, 
+    const file = req.files[0]; 
+    const fileDoc = new FileModel({
+      path: file.path,
+      originalname: file.originalname,
+      uniquName:file.filename
     });
 
-    await file.save();
+    await fileDoc.save();
 
     const meubilaire = new MeubilaireModel({
-      file: file,
-      name,
-      material: materials,
-      category: cat._id
+     file:fileDoc,
+     name,
+     material: materials, 
+     category: cat._id
     });
 
     await meubilaire.save();
 
     const response = {
       _id: meubilaire._id,
-      fileDoc: file,
+      fileDoc: fileDoc,
       name:name,
       material: materials, 
       category: cat._id
@@ -61,13 +57,13 @@ export const createMeubilaire = async (req, res) => {
 
     res.status(201).send(response);
   } catch (error) {
-  
+    console.error(error);
     res.status(500).send({ error: 'Erreur lors de la création du meuble' });
   }
 };
 
 export const getMeubilaires = async (req, res) => {
-    const meubilaires = await MeubilaireModel.find().populate("material").populate("category");
+    const meubilaires = await MeubilaireModel.find().populate("material").populate("category").populate('file');
     res.status(200).send(meubilaires)
 }
 
@@ -103,7 +99,7 @@ export const getMeubilairesBySearch = async (req, res) => {
 
 export const createCategory = async (req,res) => {
     const { name } = req.body
-  
+    console.log(name)
   try {
     const {name} = req.body
     const category =  new CategoryModel()
