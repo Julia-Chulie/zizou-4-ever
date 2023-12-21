@@ -14,6 +14,6 @@ meubilaireRouter.post("/api/meubilaires", uploads.array("files") ,createMeubilai
 
 meubilaireRouter.get("/api/meubilaires/:id", getMeubilaire);
 
-meubilaireRouter.get("/api/meubilaires", getMeubilairesBySearch);
+meubilaireRouter.get("/api/meubilaires", getMeubilaires);
 
 export default meubilaireRouter;
