@@ -68,6 +68,7 @@ export const createMeubilaire = async (req, res) => {
 
 export const getMeubilaires = async (req, res) => {
     const meubilaires = await MeubilaireModel.find().populate("material").populate("category").populate('file');
+
     res.status(200).send(meubilaires)
 }
 
@@ -85,7 +86,6 @@ export const getMeubilairesBySearch = async (req, res) => {
     try {
         const { search } = req.query;
 
-        console.log(search);
 
         const filter = search ? { category: search } : {};
         const meubilaires = await MeubilaireModel.find(filter)
@@ -103,7 +103,6 @@ export const getMeubilairesBySearch = async (req, res) => {
 
 export const createCategory = async (req,res) => {
     const { name } = req.body
-    console.log(name)
   try {
     const {name} = req.body
     const category =  new CategoryModel()

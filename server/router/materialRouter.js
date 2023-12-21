@@ -5,12 +5,7 @@ const materialRouter = express.Router();
 
 materialRouter.post("/",createMaterial);
 
-materialRouter.get("/:id", getMaterial);
 materialRouter.get("/", getMaterials);
-
-materialRouter.post("/api/materialTypes", createMaterialType);
-
-materialRouter.get("/api/materialTypes/:id", getMaterialType);
-materialRouter.get("/api/materialTypes", getMaterialTypes);
+materialRouter.get("/:id", getMaterial);
 
 export default materialRouter;

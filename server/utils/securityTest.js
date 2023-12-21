@@ -3,7 +3,7 @@ const testEmail = (email) => {
     return RegEx.test(email)
 }
 const testPassword = (password) => {
-    console.log(password);
+   
     const RegEx = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-])(?=.{8,})/;
     return RegEx.test(password)
 }

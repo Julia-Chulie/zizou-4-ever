@@ -4,6 +4,7 @@ import {createMaterialType, getMaterialTypes, getMaterialType} from "../controll
 const materialTypeRouter = express.Router();
 
 materialTypeRouter.post("/", createMaterialType);
+
 materialTypeRouter.get("/", getMaterialTypes);
 materialTypeRouter.get("/:id", getMaterialType);
 

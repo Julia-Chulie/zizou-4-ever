@@ -14,9 +14,10 @@ export const useMeubilaireStore = defineStore('meubilaire', {
 
     actions: {
        async fetchMeubilaire() {
-        this.loaded = false;
+        this.loaded = true;
         const meubilaires = await fetchMeubilaires();
         this.meubilaires = meubilaires;
+        this.loaded = false;
        },
        
        async postMeubilaire(meubilaire) {

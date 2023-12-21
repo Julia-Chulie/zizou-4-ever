@@ -1,6 +1,5 @@
 import instance from "./axios.api";
 
-
 export const fetchMaterialTypes = async () => {
     try {
         const response = await instance.get("/materialTypes")

@@ -5,7 +5,7 @@ export const useMaterialStore = defineStore('material', {
     state: () => ({
        materials: [],
        material: {},
-       loaded:false
+       loaded: false
     }),
 
     getters: {
@@ -16,14 +16,11 @@ export const useMaterialStore = defineStore('material', {
 
     actions: {
        async fetchMaterials() {
-         console.log('okok');
         const materials = await fetchMaterials();
-        console.log('store',materials);
         this.materials = materials;
        },
     },
 })
-
 
 export async function initialFetchMaterials() {
    const store = useMaterialStore();

@@ -11,18 +11,6 @@ export const fetchMeubilaires = async () => {
     }
 }
 
-export const fetchCategories = async () => {
-    try {
-        console.log('okok');
-        const response = await instance.get("/categories")
-        return response.data
-
-    } catch (error) {
-        console.error("Erreur lors de la récupération des catégories", error);
-        throw error
-    }
-}
-
 export const fetchMaterials = async () => {
     try {
         const response = await instance.get("/materials")
@@ -32,7 +20,6 @@ export const fetchMaterials = async () => {
         throw error
     }
 }
-
 
 export const createMeubilaire = async (meubilaire) => {
     try {

@@ -29,7 +29,7 @@ const upload = multer({
   dest: uploadPath,
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log(uploadPath);
+       
       cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
