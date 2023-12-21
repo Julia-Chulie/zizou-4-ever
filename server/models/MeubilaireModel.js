@@ -21,6 +21,11 @@ const MeubilaireSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref:'category',
     },
+    file: {
+        type: mongoose.Types.ObjectId,
+        ref: "file",
+        required: true
+    },
 })
 
 const MeubilaireModel = mongoose.model('meubilaire', MeubilaireSchema);

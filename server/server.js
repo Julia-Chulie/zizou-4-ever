@@ -21,8 +21,10 @@ app.use(express.json());
  app.use(meubilaireRouter)
  app.use(categoryRouter)
  app.use(enterpriseRouter)
+ app.use(express.static('public'));
 app.use(statisticsRouter)
 app.use(userRouter)
+
 mongoose.connect(process.env.MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true

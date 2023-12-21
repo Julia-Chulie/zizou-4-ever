@@ -16,6 +16,7 @@ export const createCategory = async (req,res) => {
 }
 
 export const getCategories = async (req, res) => {
-    const categories = await CategoryModel.find();
+ 
+    const categories = await CategoryModel.find(); 
     res.status(200).send(categories)
 }

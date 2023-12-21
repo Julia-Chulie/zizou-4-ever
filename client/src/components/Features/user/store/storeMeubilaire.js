@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import { fetchMeubilaires } from "../../../../shared/api/meubilaire.api";
+import { fetchMeubilaires ,createMeubilaire} from "../../../../shared/api/meubilaire.api";
 
 export const useMeubilaireStore = defineStore('meubilaire', {
     state: () => ({
@@ -17,9 +17,11 @@ export const useMeubilaireStore = defineStore('meubilaire', {
         this.loaded = false;
         const meubilaires = await fetchMeubilaires();
         this.meubilaires = meubilaires;
-        this.loaded = true;
+       },
+       
+       async postMeubilaire(meubilaire) {
+        const meubilaires = await createMeubilaire(meubilaire);
        }
-
     },
 })
 

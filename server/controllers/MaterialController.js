@@ -9,7 +9,7 @@ import MaterialTypeModel from "../models/MaterialTypeModel.js";
  }
 
  export const getMaterials = async (req, res) => {
-    const materials = await MaterialModel.find()
+    const materials = await MaterialModel.find().populate('materialType')
   
     res.status(200).send(materials)
 
@@ -50,7 +50,8 @@ export const createMaterialType = async (req,res) => {
 }
 
 export const getMaterialTypes = async (req, res) => {
-    const materialTypes = await MaterialTypeModel.find()
+    const materialTypes = await MaterialTypeModel.find().populate('material')
+    res.send(materialTypes)
 }
 
 export const getMaterialType = async (req, res) => {

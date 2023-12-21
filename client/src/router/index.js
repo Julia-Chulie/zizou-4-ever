@@ -8,15 +8,29 @@ import {AuthGuardService} from "../shared/guard/auth.guard.js";
 import {useMeubilaireStore} from "../components/Features/user/store/storeMeubilaire.js";
 import {useMaterialStore} from "../components/Features/user/store/storeMaterial.js";
 import {useCategoryStore} from "../components/Features/user/store/storeCategory.js";
+import FormMeubilaire from '../components/Features/meubilaire/FormMeubilaire.vue';
+import { initialFetchCategories } from '../components/Features/user/store/categoryStore';
+import { initialFetchMaterials } from '../components/Features/user/store/materialStore';
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-        {path: '/', component: Home},
-        {path: '/login', component: Login},
-        {path: '/dashboard', component: Dashboard, beforeEnter: [AuthGuardService,loadStatsBeforeEnter]},
-    ],
+  history: createWebHistory(),
+  routes: [
+    {path: '/', component: Home},
+    {path: '/login', component: Login},
+    {path: '/dashboard', component: Dashboard, beforeEnter: [AuthGuardService,loadStatsBeforeEnter]},
+    {path: '/add-meubilaire', component: FormMeubilaire,beforeEnter:[loadCategoriesBeforeEnter,loadMaterialsBeforeEnter]},
+  ],
 })
+
+async function loadCategoriesBeforeEnter(to, from, next) {
+  await initialFetchCategories();
+  next();
+}
+
+async function loadMaterialsBeforeEnter(to, from, next) {
+  await initialFetchMaterials(); 
+  next();
+}
 
 async function loadStatsBeforeEnter(to, from, next) {
     const statsStore = useStatsStore();
