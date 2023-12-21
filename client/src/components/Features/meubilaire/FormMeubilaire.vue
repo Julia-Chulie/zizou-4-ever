@@ -27,19 +27,15 @@ const handleFileChange = (event) => {
 const organizedMaterials = ref([]);
 
 onMounted(() => {
-    // Initialise organizedMaterials en tant que tableau vide
     organizedMaterials.value = [];
 
     materialStore.materials.forEach((material) => {
         const materialType = material.materialType.name;
-        // Trouve l'index du type de matériau dans organizedMaterials
         const typeIndex = organizedMaterials.value.findIndex((group) => group[0]?.materialType.name === materialType);
 
         if (typeIndex === -1) {
-            // Si le type n'existe pas, ajoute un nouveau groupe avec le matériau
             organizedMaterials.value.push([material]);
         } else {
-            // Si le type existe, ajoute simplement le matériau au groupe existant
             organizedMaterials.value[typeIndex].push(material);
         }
     });
@@ -57,7 +53,6 @@ const handleSubmit = async () => {
 
     formData.append('files', meubilaire.file);
 
-    // Utilise la fonction PostMeubilaire du store
     try {
         await meubilaireStore.postMeubilaire(formData);
         console.log('Meubilaire ajouté avec succès!');
@@ -94,11 +89,12 @@ const handleSubmit = async () => {
             <div  class="form-input"> 
                 <input type="file" class="file-input file-input-bordered w-full max-w-xs" @change="handleFileChange" />
             </div>
-
+            
+            <label class="text-left">Matériaux</label>
             <div class="form-input">
-                <label>Matériaux</label>
-                <div>
-                    <div v-for="(group, index) in organizedMaterials" :key="index">
+                
+                <div class="flex flex-row justify-content-center">
+                    <div class="flex-column m-4" v-for="(group, index) in organizedMaterials" :key="index">
                         <strong>{{ group[0]?.materialType.name }}</strong>
                         <div>
                             <label v-for="material in group" :key="material._id">
@@ -116,7 +112,10 @@ const handleSubmit = async () => {
 
 <style scoped>
 .container {
-    text-align: center;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 2rem;
     border: 2px solid black;
     margin: auto;

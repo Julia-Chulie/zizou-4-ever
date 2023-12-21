@@ -1,11 +1,8 @@
 <script setup>
-import { ref } from 'vue';
 import HomeCard from "./HomeCard.vue"
 import { useMeubilaireStore } from './Features/user/store/storeMeubilaire';
 
 const store = useMeubilaireStore();
-store.fetchMeubilaire()
-const meubilaires = ref(store.meubilaires);
 </script>
 
 <template>
@@ -14,7 +11,7 @@ const meubilaires = ref(store.meubilaires);
     </div>
     
     <div class="flex flex-wrap">
-        <HomeCard v-for="meubilaire in meubilaires" :key="meubilaire.id" :item="meubilaire"/>
+        <HomeCard v-for="meubilaire in store.meubilaires" :key="meubilaire.id" :item="meubilaire"/>
     </div>
 </template>
 

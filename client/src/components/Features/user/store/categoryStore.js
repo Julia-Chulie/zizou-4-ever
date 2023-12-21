@@ -15,7 +15,7 @@ export const useCategoryStore = defineStore('category', {
    },
 
     actions: {
-       async fetchCategory() {
+       async fetchCategories() {
          this.loaded =true
         const response = await fetchCategories();
         this.categories = response;
@@ -28,7 +28,7 @@ export const useCategoryStore = defineStore('category', {
 export async function initialFetchCategories() {
    const store = useCategoryStore();
    if (!store.loaded) {
-       await store.fetchCategory();
+       await store.fetchCategories();
        store.loaded = true;
    }
 }

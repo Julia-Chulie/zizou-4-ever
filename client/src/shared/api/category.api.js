@@ -1,6 +1,5 @@
 import instance from "./axios.api";
 
-
 export const fetchCategories = async () => {
     try {
         console.log('okok');

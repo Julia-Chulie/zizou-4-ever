@@ -3,11 +3,11 @@ const props = defineProps({
   item: Object
 });
 
-const openModal = () => {
-  const modal = document.getElementById('material_modal');
-  if (modal) {
-    modal.showModal();
-  }
+const openModal = (id) => {
+    const modal = document.getElementById(id);
+    if (modal) {
+        modal.showModal();
+    }
 }
 </script>
 
@@ -19,21 +19,23 @@ const openModal = () => {
                 {{ item.name }}
             <div class="badge badge-secondary">{{ item.category.name }}</div>
             </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-                <button v-for="material in item.material" :key="material.id" class="badge badge-outline" @click="openModal">
-                    {{ material.name }}
-                </button>
-            </div>
-            <dialog id="material_modal" class="modal">
-                <div class="modal-box">
-                    <h3 class="font-bold text-lg">Hello!</h3>
-                    <p class="py-4">Press ESC key or click outside to close</p>
+            <p>{{ item.description }}</p>
+            <div v-for="material in item.material" :key="material.id" class="flex flex-row">
+                <div class="card-actions justify-end">
+                    <button  class="badge badge-outline" @click="() => openModal('modal-' + material._id)">
+                        {{ material.name }}
+                    </button>
                 </div>
-                <form method="dialog" class="modal-backdrop">
-                    <button></button>
-                </form>
-            </dialog>
+                <dialog :id="'modal-' + material._id" class="modal">
+                    <div class="modal-box">
+                        <h3 class="font-bold text-lg">{{material.name}}</h3>
+                        <p class="py-4">{{material.description}}</p>
+                    </div>
+                    <form method="dialog" class="modal-backdrop">
+                        <button></button>
+                    </form>
+                </dialog>
+            </div>
         </div>
     </div>
 </template>

@@ -15,7 +15,7 @@ import CategoriesTable from "../components/dashboard/tables/CategoriesTable.vue"
 import MeubilairesTable from "../components/dashboard/tables/MeubilairesTable.vue";
 import StatNumbers from "../components/dashboard/stats/StatNumbers.vue";
 
-const router = useRouter();
+const router = useRouter()
 
 const authStore = useAuthStore()
 const isAuthenticated = authStore.isAuthenticated
@@ -174,6 +174,16 @@ onMounted(() => {
           </div>
         </div>
       </div>
+
+    </div>
+    <div class="drawer-side">
+      <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+      <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content gap-4 font-bold">
+        <!-- Sidebar content here -->
+        <li><router-link to="/">Accueil</router-link></li>
+        <li><router-link to="/add-meubilaire">Ajouter un meuble</router-link></li>
+        <li><router-link to="/logout">Déconnexion</router-link></li>
+      </ul>
     </div>
     <DashboardSidebar></DashboardSidebar>
   </div>

@@ -6,18 +6,19 @@ import {useAuthStore} from "../components/Features/user/store/authStore.js";
 import {useStatsStore} from "../components/Features/user/store/statsStore.js";
 import {AuthGuardService} from "../shared/guard/auth.guard.js";
 import {useMeubilaireStore} from "../components/Features/user/store/storeMeubilaire.js";
-import {useMaterialStore} from "../components/Features/user/store/storeMaterial.js";
-import {useCategoryStore} from "../components/Features/user/store/storeCategory.js";
+import {useMaterialStore} from "../components/Features/user/store/materialStore.js";
+import {useCategoryStore} from "../components/Features/user/store/categoryStore.js";
 import FormMeubilaire from '../components/Features/meubilaire/FormMeubilaire.vue';
 import { initialFetchCategories } from '../components/Features/user/store/categoryStore';
 import { initialFetchMaterials } from '../components/Features/user/store/materialStore';
+import { initialFetchMeubilaires } from '../components/Features/user/store/storeMeubilaire.js';
 import {useMaterialTypesStore} from "../components/Features/user/store/materialTypeStore.js";
 import {fetchMaterialTypes} from "../shared/api/materialType.api.js";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    {path: '/', component: Home},
+    {path: '/', component: Home, beforeEnter: [loadMeubilairesBeforeEnter]},
     {path: '/login', component: Login},
     {path: '/dashboard', component: Dashboard, beforeEnter: [AuthGuardService,loadStatsBeforeEnter]},
     {path: '/add-meubilaire', component: FormMeubilaire,beforeEnter:[loadCategoriesBeforeEnter,loadMaterialsBeforeEnter]},
@@ -26,6 +27,11 @@ const router = createRouter({
 
 async function loadCategoriesBeforeEnter(to, from, next) {
   await initialFetchCategories();
+  next();
+}
+
+async function loadMeubilairesBeforeEnter(to, from, next) {
+  await initialFetchMeubilaires();
   next();
 }
 
@@ -54,7 +60,6 @@ async function loadStatsBeforeEnter(to, from, next) {
 
     next();
 }
-
 
 router.beforeEach(async () => {
   const authStore = useAuthStore()

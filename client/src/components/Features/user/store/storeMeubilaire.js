@@ -29,7 +29,7 @@ export function initialFetchMeubilaires() {
    const store = useMeubilaireStore();
    if (!store.loaded) {
       store.fetchMeubilaire();
-      if (store.meubilaires.length > 1) {
+      if (store.meubilaires.length == 0) {
          store.meubilaires = [];
       }
    }
