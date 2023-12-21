@@ -11,6 +11,8 @@ import {useCategoryStore} from "../components/Features/user/store/storeCategory.
 import FormMeubilaire from '../components/Features/meubilaire/FormMeubilaire.vue';
 import { initialFetchCategories } from '../components/Features/user/store/categoryStore';
 import { initialFetchMaterials } from '../components/Features/user/store/materialStore';
+import {useMaterialTypesStore} from "../components/Features/user/store/materialTypeStore.js";
+import {fetchMaterialTypes} from "../shared/api/materialType.api.js";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -46,6 +48,9 @@ async function loadStatsBeforeEnter(to, from, next) {
 
     const categoryStore = useCategoryStore();
     await categoryStore.fetchCategories();
+
+    const materialTypeStore = useMaterialTypesStore();
+    await materialTypeStore.fetchMaterialTypes();
 
     next();
 }

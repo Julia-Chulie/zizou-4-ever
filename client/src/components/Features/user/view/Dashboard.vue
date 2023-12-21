@@ -5,8 +5,15 @@ import {useAuthStore} from "../store/authStore.js";
 import {useStatsStore} from "../store/statsStore.js";
 import {Chart} from "chart.js/auto";
 import {useMeubilaireStore} from "../store/storeMeubilaire.js";
-import {useMaterialStore} from "../store/storeMaterial.js";
-import {useCategoryStore} from "../store/storeCategory.js";
+import {useMaterialStore} from "../store/materialStore.js";
+import {useCategoryStore} from "../store/categoryStore.js";
+import DashboardSidebar from "../components/dashboard/nav/DashboardSidebar.vue";
+import {useMaterialTypesStore} from "../store/materialTypeStore.js";
+import MaterialTypeTable from "../components/dashboard/tables/MaterialTypeTable.vue";
+import MaterialsTable from "../components/dashboard/tables/MaterialsTable.vue";
+import CategoriesTable from "../components/dashboard/tables/CategoriesTable.vue";
+import MeubilairesTable from "../components/dashboard/tables/MeubilairesTable.vue";
+import StatNumbers from "../components/dashboard/stats/StatNumbers.vue";
 
 const router = useRouter();
 
@@ -24,6 +31,8 @@ const materials = ref([]);
 const categoryStore = useCategoryStore();
 const categories = ref([]);
 
+const materialTypeStore = useMaterialTypesStore();
+const materialTypes = ref([]);
 
 const createMeubilairesByCategoryChart = () => {
   let ctx = document.getElementById('meubilairesByCategoryChart').getContext('2d');
@@ -57,35 +66,36 @@ const createMeubilairesByCategoryChart = () => {
 const createMeubilairesByMaterialChart = () => {
   let ctx = document.getElementById('meubilairesByMaterialChart').getContext('2d');
   let meubilairesByMaterialChart = new Chart(ctx, {
-    type: 'doughnut',
+    type: 'polarArea',
     data: {
       labels: statsStore.meubilairesByMaterial.map((meubilaire) => meubilaire.name),
       datasets: [{
         label: 'Meubilaires par matière',
         data: statsStore.meubilairesByMaterial.map((meubilaire) => meubilaire.number),
         backgroundColor: [
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
           'rgba(255, 99, 132, 0.2)',
           'rgba(255, 159, 64, 0.2)',
-          'rgba(255, 205, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(54, 162, 235, 0.2)'
+          'rgba(255, 205, 86, 0.2)'
         ],
         borderColor: [
+          'rgb(75, 192, 192)',
+          'rgb(54, 162, 235)',
           'rgb(255, 99, 132)',
           'rgb(255, 159, 64)',
-          'rgb(255, 205, 86)',
-          'rgb(75, 192, 192)',
-          'rgb(54, 162, 235)'
+          'rgb(255, 205, 86)'
         ],
         borderWidth: 1
       }],
-    }
+    },
+
   })
 }
 
 
 onBeforeMount(() => {
-  if(!isAuthenticated){
+  if (!isAuthenticated) {
     router.push('/login')
   }
 })
@@ -93,6 +103,7 @@ onMounted(() => {
   meubilaires.value = meubilaireStore.meubilaires
   materials.value = materialStore.materials
   categories.value = categoryStore.categories
+  materialTypes.value = materialTypeStore.materialTypes
 
   createMeubilairesByCategoryChart();
   createMeubilairesByMaterialChart()
@@ -101,57 +112,70 @@ onMounted(() => {
 
 <template>
   <div class="drawer lg:drawer-open">
-    <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+    <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
     <div class="drawer-content flex flex-col items-center">
       <div class="container p-10 w-full">
-        <h1 class="text-primary text-2xl font-bold text-center">Bienvenue sur le Dashboard ! </h1>
-        <h1 class="text-secondary text-2xl font-bold text-center">Voici quelques statistiques </h1>
-
-        <div class="stats stats-vertical lg:stats-horizontal shadow mb-5">
-
-          <div class="stat">
-            <div class="stat-title">Meubilaires</div>
-            <div class="stat-value">{{ meubilaires.length }}</div>
+        <div class="flex justify-between items-center mb-4">
+          <div class="flex flex-col">
+            <h1 class="text-2xl font-bold">Bienvenue sur le Dashboard ! </h1>
+            <h1 class="text-secondary text-2xl font-bold">Voici quelques statistiques </h1>
           </div>
-
-          <div class="stat">
-            <div class="stat-title">Matériaux</div>
-            <div class="stat-value">{{ materials.length }}</div>
+          <div class="md:flex items-center gap-6 hidden">
+            <div class="avatar">
+              <div class="rounded-full w-24 h-24 m-2 mt-0">
+                <img src="https://picsum.photos/id/1005/200/200"/>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <h1 class="text-2xl font-bold">{{ authStore.currentUser?.firstname }} {{
+                  authStore.currentUser?.lastname
+                }}</h1>
+              <h2 class="text-secondary text-xl font-bold">{{ authStore.currentUser?.email }}</h2>
+            </div>
           </div>
-
-          <div class="stat">
-            <div class="stat-title">Catégories</div>
-            <div class="stat-value">{{ categories.length }}</div>
-          </div>
-
         </div>
 
-        <div id="stats" class="md:flex gap-20">
-          <div class="card w-96 bg-base-100 shadow-xl">
+        <StatNumbers :material-types="materialTypes" :categories="categories" :materials="materials" :meubilaires="meubilaires"></StatNumbers>
+
+        <div id="stats" class="md:grid grid-cols-2 md:gap-4 flex flex-col gap-2">
+          <div class="card w-full bg-base-100 shadow-xl grid-cols-6">
             <div class="card-body">
               <div class="card-title">Meubilaires par catégories</div>
               <canvas id="meubilairesByCategoryChart"></canvas>
             </div>
           </div>
-          <div class="card w-96 bg-base-100 shadow-xl">
+          <div class="card w-full h-fit bg-base-100 shadow-xl">
             <div class="card-body">
               <div class="card-title">Meubilaires par matériaux</div>
               <canvas id="meubilairesByMaterialChart"></canvas>
             </div>
           </div>
         </div>
-
+        <div class="grid grid-cols-4 gap-4 mt-4">
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <MaterialTypeTable :materialTypes="materialTypes"></MaterialTypeTable>
+            </div>
+          </div>
+          <div class="card bg-base-100 grid grid-cols-subgrid col-span-2 shadow-xl">
+            <div class="card-body">
+              <MaterialsTable :materials="materials"></MaterialsTable>
+            </div>
+          </div>
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <CategoriesTable :categories="categories"></CategoriesTable>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-base-100 shadow-xl mt-4">
+          <div class="card-body">
+            <MeubilairesTable :meubilaires="meubilaires"></MeubilairesTable>
+          </div>
+        </div>
       </div>
-
     </div>
-    <div class="drawer-side">
-      <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content gap-4 font-bold">
-        <!-- Sidebar content here -->
-        <li><router-link to="/">Accueil</router-link></li>
-        <li><router-link to="/logout">Déconnexion</router-link></li>
-      </ul>
-    </div>
+    <DashboardSidebar></DashboardSidebar>
   </div>
 
 
