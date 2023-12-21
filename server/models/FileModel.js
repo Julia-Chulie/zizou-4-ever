@@ -10,11 +10,10 @@ const FileSchema = new Schema({
         type:String,
         required:true
     },
-    uniquName:{
+    format:{
         type:String,
-        required:true,
-        unique:true
-    }
+        required:true
+    },
   });
 
 
