@@ -2,11 +2,10 @@ import MeubilaireModel from "../models/MeubilaireModel.js";
 import MaterialModel from "../models/MaterialModel.js";
 import CategoryModel from "../models/CategoryModel.js";
 import FileModel from "../models/FileModel.js";
-
+import path from 'path'
 
 export const createMeubilaire = async (req, res) => {
-console.log(req.body);
-console.log('req.body');
+
   try {
     const { name, materials, category } = req.body;
   
@@ -25,31 +24,36 @@ console.log('req.body');
       matArray.push(mat.name); 
     }
 
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).send({ error: 'Aucun fichier trouvé dans la requête.' });
+    if (!req.file) {
+      return res.status(400).send({ error: 'Aucune image reçue' });
     }
 
-    const file = req.files[0]; 
-    const fileDoc = new FileModel({
-      path: file.path,
-      originalname: file.originalname,
-      uniquName:file.filename
+    const fileExtension = path.extname(req.file.originalname);
+
+    if (fileExtension !== '.jpg' && fileExtension !== '.png' && fileExtension !== '.jpeg') {
+      return res.status(400).send({ error: "Ce type de fichier n'est pas pris en compte" });
+    }
+
+    const file = new FileModel({
+      originalname: req.file.filename,
+      path: req.file.path,
+      format: fileExtension, 
     });
 
-    await fileDoc.save();
+    await file.save();
 
     const meubilaire = new MeubilaireModel({
-     file:fileDoc,
-     name,
-     material: materials, 
-     category: cat._id
+      file: file,
+      name,
+      material: materials,
+      category: cat._id
     });
 
     await meubilaire.save();
 
     const response = {
       _id: meubilaire._id,
-      fileDoc: fileDoc,
+      fileDoc: file,
       name:name,
       material: materials, 
       category: cat._id

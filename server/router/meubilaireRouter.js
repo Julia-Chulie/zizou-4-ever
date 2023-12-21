@@ -46,10 +46,9 @@ const upload = multer({
 const meubilaireRouter = express.Router();
 const uploads = multer({ dest: 'public/uploads' });
 
-meubilaireRouter.post("/api/meubilaires", upload.single("files"), createMeubilaire);
+meubilaireRouter.post("/", upload.single("files"), createMeubilaire);
 
-meubilaireRouter.get("/api/meubilaires/:id", getMeubilaire);
-
-meubilaireRouter.get("/api/meubilaires", getMeubilaires);
+meubilaireRouter.get("/", getMeubilaires);
+meubilaireRouter.get("/:id", getMeubilaire);
 
 export default meubilaireRouter;

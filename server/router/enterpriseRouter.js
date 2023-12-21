@@ -3,7 +3,7 @@ import { createEnterprise, getEnterprises } from "../controllers/EnterpriseContr
 
 const enterpriseRouter = express.Router();
 
-enterpriseRouter.post("/api/enterprises", createEnterprise);
-enterpriseRouter.get("/api/enterprises", getEnterprises);
+enterpriseRouter.post("/", createEnterprise);
+enterpriseRouter.get("/", getEnterprises);
 
 export default enterpriseRouter

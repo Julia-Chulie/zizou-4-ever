@@ -7,7 +7,7 @@ import {verifyToken} from "../middlewares/AuthenticatorGuard.js";
 
 const statisticsRouter = express.Router();
 
-statisticsRouter.get("/api/statistics/meubilaires_by_material",getMeubilairesNumberByMaterial);
-statisticsRouter.get("/api/statistics/meubilaires_by_category",getMeubilairesNumberByCategory);
+statisticsRouter.get("/meubilaires_by_material",getMeubilairesNumberByMaterial);
+statisticsRouter.get("/meubilaires_by_category",getMeubilairesNumberByCategory);
 
 export default statisticsRouter;

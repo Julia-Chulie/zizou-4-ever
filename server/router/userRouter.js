@@ -4,7 +4,7 @@ import { verifyToken } from "../middlewares/AuthenticatorGuard.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/api/users/user/:id", verifyToken, getUserById); 
-userRouter.get("/api/users/:token", getCurrentUser);
+userRouter.get("/user/:id", verifyToken, getUserById); 
+userRouter.get("/:token", getCurrentUser);
 
 export default userRouter;
