@@ -67,13 +67,8 @@ export const createMeubilaire = async (req, res) => {
 };
 
 export const getMeubilaires = async (req, res) => {
-    const meubilaires = await MeubilaireModel.find().populate({
-        path:'materials',
-        seelct:"name"
-    }).populate({
-        path:'category',
-        seelct:"name"
-    });
+    const meubilaires = await MeubilaireModel.find().populate("material").populate("category");
+    res.status(200).send(meubilaires)
 }
 
 export const getMeubilaire = async (req, res) => {

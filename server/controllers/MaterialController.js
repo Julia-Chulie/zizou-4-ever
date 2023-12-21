@@ -50,7 +50,7 @@ export const createMaterialType = async (req,res) => {
 }
 
 export const getMaterialTypes = async (req, res) => {
-    const materialTypes = await MaterialTypeModel.find().populate('material')
+    const materialTypes = await MaterialTypeModel.find()
     res.send(materialTypes)
 }
 

@@ -4,7 +4,8 @@ import { fetchMeubilaires ,createMeubilaire} from "../../../../shared/api/meubil
 export const useMeubilaireStore = defineStore('meubilaire', {
     state: () => ({
        meubilaires: [],
-       meubilaire: null
+       meubilaire: null,
+       loaded: false
     }),
 
     getters: {
@@ -13,8 +14,8 @@ export const useMeubilaireStore = defineStore('meubilaire', {
 
     actions: {
        async fetchMeubilaire() {
+        this.loaded = false;
         const meubilaires = await fetchMeubilaires();
-        console.log('store',meubilaires);
         this.meubilaires = meubilaires;
        },
        
@@ -23,3 +24,13 @@ export const useMeubilaireStore = defineStore('meubilaire', {
        }
     },
 })
+
+export function initialFetchMeubilaires() {
+   const store = useMeubilaireStore();
+   if (!store.loaded) {
+      store.fetchMeubilaire();
+      if (store.meubilaires.length > 1) {
+         store.meubilaires = [];
+      }
+   }
+}
