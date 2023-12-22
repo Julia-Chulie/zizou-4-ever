@@ -19,8 +19,12 @@ const authStore = useAuthStore()
         </router-link>
       </li>
       <li>
-        <router-link to="/dashboard/add-meubilaire" class="">
-          <svg viewBox="0 0 24 24" class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g data-name="add" id="add-2"> <g> <line fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="19" y2="5"></line> <line fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="5" x2="19" y1="12" y2="12"></line> </g> </g> </g> </g></svg>
+        <router-link to="/dashboard/add-meubilaire">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="none" stroke="currentColor" id="addMeubilaire">
+            <path fill-rule="evenodd" stroke-width="2"
+                  d="M10.707 10l4.147-4.146a.5.5 0 10-.708-.708L10 9.293 5.854 5.147a.5.5 0 00-.708.708L9.293 10l-4.147 4.146a.5.5 0 00.708.708L10 10.707l4.146 4.147a.5.5 0 00.708-.708L10.707 10z"
+                  clip-rule="evenodd"/>
+          </svg>
           Ajouter un meubilaire
         </router-link>
       </li>
@@ -39,4 +43,7 @@ const authStore = useAuthStore()
 </template>
 
 <style scoped>
+#addMeubilaire{
+  transform: rotate(45deg);
+}
 </style>
