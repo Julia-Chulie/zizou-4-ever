@@ -8,10 +8,16 @@ import MenuConnectedMobile from "./Features/user/components/MenuConnectedMobile.
 
 const router = useRouter();
 const authStore = useAuthStore();
+
 let theme = localStorage.getItem('theme');
 if(theme === null){
   theme = 'light';
 }
+
+onMounted(() => {
+  themeChange(false)
+
+})
 
 </script>
 
