@@ -13,6 +13,7 @@ import { initialFetchCategories } from '../components/Features/user/store/catego
 import { initialFetchMaterials } from '../components/Features/user/store/materialStore';
 import { initialFetchMeubilaires } from '../components/Features/user/store/storeMeubilaire.js';
 import {useMaterialTypesStore} from "../components/Features/user/store/materialTypeStore.js";
+import {useEnterpriseStore} from "../components/Features/user/store/enterpriseStore.js";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -56,6 +57,9 @@ async function loadStatsBeforeEnter(to, from, next) {
 
     const materialTypeStore = useMaterialTypesStore();
     await materialTypeStore.fetchMaterialTypes();
+
+    const entrepriseStore = useEnterpriseStore();
+    await entrepriseStore.fetchEnterprises();
 
     next();
 }

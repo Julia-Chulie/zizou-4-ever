@@ -10,3 +10,14 @@ export const fetchEnterpriseByMaterialtype = async (materialType) => {
         throw error
     }
 }
+
+export const fetchEnterprises = async () => {
+    try {
+        const response = await instance.get("/enterprises")
+        return response.data
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des entreprises", error);
+        throw error
+    }
+}

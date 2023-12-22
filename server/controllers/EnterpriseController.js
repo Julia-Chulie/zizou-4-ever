@@ -23,6 +23,7 @@ export const createEnterprise = async (req,res) => {
 
 export const getEnterprises = async (req, res) => {
     const enterprises = await EnterpriseModel.find()
+
     res.status(200).send(enterprises)
 }
 

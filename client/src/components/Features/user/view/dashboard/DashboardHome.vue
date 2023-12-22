@@ -13,6 +13,8 @@ import {useCategoryStore} from "../../store/categoryStore.js";
 import {useMaterialTypesStore} from "../../store/materialTypeStore.js";
 import {Chart} from "chart.js/auto";
 import {useAuthStore} from "../../store/authStore.js";
+import {useEnterpriseStore} from "../../store/enterpriseStore.js";
+import EntrepriseTable from "../../components/dashboard/tables/EntrepriseTable.vue";
 
 const authStore = useAuthStore();
 
@@ -29,6 +31,9 @@ const categories = ref([]);
 
 const materialTypeStore = useMaterialTypesStore();
 const materialTypes = ref([]);
+
+const entrepriseStore = useEnterpriseStore();
+const entreprises = ref([]);
 
 const createMeubilairesByCategoryChart = () => {
   let ctx = document.getElementById('meubilairesByCategoryChart').getContext('2d');
@@ -94,6 +99,7 @@ onMounted(() => {
   materials.value = materialStore.materials
   categories.value = categoryStore.categories
   materialTypes.value = materialTypeStore.materialTypes
+  entreprises.value = entrepriseStore.enterprises
 
   createMeubilairesByCategoryChart();
   createMeubilairesByMaterialChart()
@@ -122,7 +128,8 @@ onMounted(() => {
       </div>
     </div>
 
-    <StatNumbers :material-types="materialTypes" :categories="categories" :materials="materials" :meubilaires="meubilaires"></StatNumbers>
+    <StatNumbers :material-types="materialTypes" :categories="categories" :materials="materials"
+                 :meubilaires="meubilaires"></StatNumbers>
 
     <div id="stats" class="md:grid grid-cols-2 md:gap-4 flex flex-col gap-2">
       <div class="card w-full bg-base-100 shadow-xl grid-cols-6">
@@ -139,19 +146,27 @@ onMounted(() => {
       </div>
     </div>
     <div class="grid grid-cols-4 gap-4 mt-4">
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <MaterialTypeTable :materialTypes="materialTypes"></MaterialTypeTable>
-        </div>
-      </div>
+
       <div class="card bg-base-100 grid grid-cols-subgrid col-span-2 shadow-xl">
         <div class="card-body">
           <MaterialsTable :materials="materials"></MaterialsTable>
         </div>
       </div>
-      <div class="card bg-base-100 shadow-xl">
+      <div class="card bg-base-100 shadow-xl grid grid-cols-subgrid col-span-2">
         <div class="card-body">
           <CategoriesTable :categories="categories"></CategoriesTable>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-4 gap-4 mt-4">
+      <div class="card bg-base-100 shadow-xl mt-4 grid grid-cols-subgrid col-span-2">
+        <div class="card-body">
+          <EntrepriseTable :entreprises="entreprises"></EntrepriseTable>
+        </div>
+      </div>
+      <div class="card bg-base-100 shadow-xl grid grid-cols-subgrid col-span-2">
+        <div class="card-body">
+          <MaterialTypeTable :materialTypes="materialTypes"></MaterialTypeTable>
         </div>
       </div>
     </div>
@@ -160,6 +175,8 @@ onMounted(() => {
         <MeubilairesTable :meubilaires="meubilaires"></MeubilairesTable>
       </div>
     </div>
+
+
   </div>
 </template>
 
