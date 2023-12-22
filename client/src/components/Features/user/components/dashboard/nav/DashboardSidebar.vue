@@ -1,5 +1,7 @@
 <script setup>
+import { useAuthStore } from '../../../store/authStore';
 
+const authStore = useAuthStore()
 
 </script>
 
@@ -23,7 +25,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/logout">
+        <router-link @click="authStore.logout" to="/login">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="none" stroke="currentColor">
             <path fill-rule="evenodd" stroke-width="2"
                   d="M10.707 10l4.147-4.146a.5.5 0 10-.708-.708L10 9.293 5.854 5.147a.5.5 0 00-.708.708L9.293 10l-4.147 4.146a.5.5 0 00.708.708L10 10.707l4.146 4.147a.5.5 0 00.708-.708L10.707 10z"

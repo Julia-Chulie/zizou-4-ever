@@ -12,6 +12,16 @@ const MeubilaireSchema = new Schema({
             throw  new Error('Nom trop court')
         }
     }},
+    description: {
+        type: String,
+        required: true,
+        unique: true,
+        minLenght: 8,
+        validate: value => {
+        if(value ==="" || value.length <= 8){
+            throw  new Error('description trop court')
+        }
+    }},
     material: [{
         type: mongoose.Types.ObjectId,
         ref: 'material',

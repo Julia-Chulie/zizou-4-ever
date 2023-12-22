@@ -7,6 +7,11 @@ const categoryStore = useCategoryStore()
 const meubilaireStore = useMeubilaireStore()
 console.log(categoryStore);
 console.log('proute,', categoryStore.categories);
+
+const isError = ref(false)
+const isSuccess = ref(false)
+const messageError = ref('')
+const messageSucess =ref('')
 const materialStore = useMaterialStore()
 const meubilaire = reactive({
     name: '',
@@ -55,9 +60,15 @@ const handleSubmit = async () => {
 
     try {
         await meubilaireStore.postMeubilaire(formData);
-        console.log('Meubilaire ajouté avec succès!');
+        isSuccess.value=true
+        isError.value=false
+        messageSucess.value="Meubilaire ajouté avec succès"
+
     } catch (error) {
-        console.error('Erreur lors de l\'ajout du meubilaire:', error);
+        isSuccess.value=false
+        isError.value=true
+        messageError.value="Erreur lors de l'ajout du meubilaire"
+       
     }
 };
 </script>
@@ -65,6 +76,8 @@ const handleSubmit = async () => {
 <template>
     <div class="container">
         <h1>Ajouter un meuble</h1>
+        <p class="text-red-500" v-if="isError">{{ messageError }}</p>
+        <p class=" text-green-600" v-if="isSuccess">{{ messageSucess }}</p>
         <form @submit.prevent="handleSubmit">
             <div class="form-input">
                 <input type="text" placeholder="Nom" v-model="meubilaire.name"

@@ -7,7 +7,7 @@ import path from 'path'
 export const createMeubilaire = async (req, res) => {
 
   try {
-    const { name, materials, category } = req.body;
+    const { name, materials, category,description } = req.body;
   
     const cat = await CategoryModel.findOne({ '_id': category });
     if (!cat) {
@@ -45,6 +45,7 @@ export const createMeubilaire = async (req, res) => {
     const meubilaire = new MeubilaireModel({
       file: file,
       name,
+      description,
       material: materials,
       category: cat._id
     });
@@ -53,8 +54,8 @@ export const createMeubilaire = async (req, res) => {
 
     const response = {
       _id: meubilaire._id,
-      fileDoc: file,
       name:name,
+      description: description,
       material: materials, 
       category: cat._id
     };
@@ -83,23 +84,46 @@ export const getMeubilaire = async (req, res) => {
 }
 
 export const getMeubilairesBySearch = async (req, res) => {
-    try {
-        const { search } = req.query;
 
+  try {
+      const { search } = req.query;
 
-        const filter = search ? { category: search } : {};
-        const meubilaires = await MeubilaireModel.find(filter)
-
-        if (meubilaires.length === 0) {
-            return res.status(404).send({ error: true, message: 'Aucun meuble trouvé pour la recherche spécifiée' });
+      let filter = {};
+    if(search) {
+      if (  search.category || search.material) {
+          const additionalFilter = {};
+          if (search.category) {
+            const cat = await CategoryModel.findOne({ name: search.category });
+                console.log(search.category);
+              additionalFilter.category = cat;
+          }
+          if (search.material && Array.isArray(search.material)) {
+            const materials = await MaterialModel.find({ name: { $in: search.material } });
+            additionalFilter.material = { $in: materials.map(material => material._id) };
         }
 
-        res.status(200).send(meubilaires);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: true, message: 'Erreur serveur lors de la recherche de meubles' });
+          filter = { ...filter, ...additionalFilter };
+      }
     }
-}
+      const meubilaires = await MeubilaireModel.find(filter).populate({
+              path: 'material',
+              populate: {
+                  path: 'materialType'
+              }
+          })
+          .populate("category")
+          .populate('file');
+
+      if (meubilaires.length === 0) {
+          return res.status(404).send({ error: true, message: 'Aucun meuble trouvé pour la recherche spécifiée' });
+      }
+
+      res.status(200).send(meubilaires);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: true, message: 'Erreur serveur lors de la recherche de meubles' });
+  }
+};
 
 export const createCategory = async (req,res) => {
     const { name } = req.body

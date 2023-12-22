@@ -17,7 +17,7 @@ import {useMaterialTypesStore} from "../components/Features/user/store/materialT
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    {path: '/', component: Home, beforeEnter: [loadMeubilairesBeforeEnter]},
+    {path: '/', component: Home, beforeEnter: [loadMeubilairesBeforeEnter,loadCategoriesBeforeEnter,loadMaterialsBeforeEnter]},
     {path: '/login', component: Login},
     {path: '/dashboard', component: Dashboard, beforeEnter: [AuthGuardService,loadStatsBeforeEnter]},
     {path: '/dashboard/add-meubilaire', component: Dashboard,beforeEnter:[loadCategoriesBeforeEnter,loadMaterialsBeforeEnter]},
